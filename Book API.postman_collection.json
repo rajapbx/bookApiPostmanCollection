@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "eaf4aa7f-a046-4015-9c0e-daf0ba607d8f",
+		"name": "Book API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8390140"
+	},
+	"item": [
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData= pm.response.json();\r",
+							"\r",
+							"pm.test('Status is 200', ()=>{\r",
+							"    pm.response.to.have.status(000);\r",
+							"})\r",
+							"\r",
+							"pm.test('Status is UP',()=>{\r",
+							"    pm.expect(jsonData.status).to.eql('UP');\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(`Test name :- ${pm.info.requestName}`)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/status",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetNonFictionBooks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test('Status is 200', ()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let bookDetails;\r",
+							"let expectedBookName = \"Trespassing Across America: One Man's Epic, Never-Done-Before (and Sort of Illegal) Hike Across the Heartland\";\r",
+							"for(let result of jsonData.results){\r",
+							"    if(result.title == expectedBookName){\r",
+							"        bookDetails = result;\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.test('Book called '+expectedBookName+ ' is present in response',()=>{\r",
+							"    pm.expect(bookDetails.title).to.eql(expectedBookName);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "My Postman",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/books/lists?api-key=8fhg93xkjd38fhg834jdfgjd&list=non-fiction&page=3",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "api-key",
+							"value": "8fhg93xkjd38fhg834jdfgjd"
+						},
+						{
+							"key": "list",
+							"value": "non-fiction"
+						},
+						{
+							"key": "page",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
